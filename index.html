@@ -6,474 +6,454 @@
   <title>Demo3｜訪問計画の経営インパクト可視化（静的デモ）</title>
   <style>
     :root{
-      --bg:#0b0f17;
-      --card:#121a26;
-      --muted:#8aa0b6;
-      --text:#e7eef7;
-      --line:rgba(255,255,255,.08);
-      --good:#7CFFB2;
-      --warn:#FFD27C;
-      --bad:#FF7C9A;
-      --accent:#79B8FF;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#172033;
+      --muted:#5b677a;
+      --line:rgba(17,32,51,.10);
+      --accent:#2f6fed;
+      --accent2:#16a34a;
+      --warn:#b45309;
+      --shadow: 0 12px 30px rgba(17,32,51,.10);
+      --radius:18px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% 0%, rgba(121,184,255,.18), transparent 60%),
-                  radial-gradient(1000px 700px at 80% 20%, rgba(124,255,178,.12), transparent 55%),
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Helvetica Neue", Arial;
+      background: radial-gradient(900px 520px at 10% 0%, rgba(47,111,237,.10), transparent 55%),
+                  radial-gradient(900px 520px at 85% 10%, rgba(22,163,74,.10), transparent 55%),
                   var(--bg);
       color:var(--text);
-      line-height:1.5;
+      line-height:1.55;
     }
     a{color:var(--accent); text-decoration:none}
-    .wrap{
-      max-width:1120px;
-      margin:0 auto;
-      padding:28px 18px 40px;
-    }
-    .topbar{
-      display:flex;
-      gap:12px;
+    .wrap{max-width:1120px; margin:0 auto; padding:22px 16px 44px;}
+    .top{
+      display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
       align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
       margin-bottom:14px;
     }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:12px;
-      background: rgba(255,255,255,.03);
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border:1px solid var(--line);
+      border-radius:999px; background: rgba(255,255,255,.75);
+      color:var(--muted); font-size:12px;
     }
-    .title{
-      margin:6px 0 6px;
-      font-size:20px;
-      letter-spacing:.2px;
-    }
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-    }
+    h1{margin:8px 0 6px; font-size:20px; letter-spacing:.2px;}
+    .sub{margin:0; color:var(--muted); font-size:13px; max-width:860px;}
+    .grid{display:grid; grid-template-columns: 420px 1fr; gap:14px; margin-top:14px;}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr;} }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 420px 1fr;
-      gap:14px;
-      margin-top:14px;
-    }
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-    }
     .card{
-      background: rgba(18,26,38,.92);
-      border:1px solid var(--line);
-      border-radius:18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.2px;
-    }
-    .card .hd{
+    .hd{
       padding:14px 14px 12px;
       border-bottom:1px solid var(--line);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
     }
-    .card .bd{ padding:14px; }
+    .hd h2{margin:0; font-size:14px;}
+    .bd{padding:14px;}
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
 
-    .kpiHero{
-      background: linear-gradient(135deg, rgba(121,184,255,.14), rgba(124,255,178,.10));
-      border-bottom:1px solid var(--line);
+    /* Hero */
+    .hero{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding:14px;
+      background: linear-gradient(135deg, rgba(47,111,237,.08), rgba(22,163,74,.08));
     }
-    .kpiHero .bd{
-      padding:16px 14px 14px;
-    }
-    .heroLine{
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+    .heroTitle{margin:0; font-size:13px; color:var(--muted);}
     .heroBig{
+      margin:8px 0 6px;
       font-size:28px;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.3px;
     }
-    .heroSmall{
-      color:var(--muted);
-      font-size:13px;
-    }
-    .heroPills{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+    .heroSub{margin:0; color:var(--muted); font-size:12px;}
+    .pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
     .pill{
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color:var(--muted);
-      border-radius:999px;
-      padding:7px 10px;
+      background: rgba(255,255,255,.8);
+      border-radius: 999px;
+      padding:8px 10px;
       font-size:12px;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
+      color:var(--muted);
+      display:inline-flex; gap:8px; align-items:center;
     }
-    .pill b{ color: var(--text); font-weight:700; }
+    .pill b{color:var(--text)}
+    .ctaRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+    button{
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      cursor:pointer;
+      font-size:12px;
+    }
+    button:hover{background: rgba(47,111,237,.06); border-color: rgba(47,111,237,.25);}
+    .btnPrimary{
+      border-color: rgba(47,111,237,.35);
+      background: rgba(47,111,237,.10);
+    }
 
-    .row{
+    /* Inputs */
+    .presetRow{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+    .field{
       display:grid;
-      grid-template-columns: 1fr 120px;
+      grid-template-columns: 1fr 140px;
       gap:10px;
       align-items:center;
       padding:10px 0;
-      border-bottom:1px dashed rgba(255,255,255,.08);
+      border-bottom:1px dashed rgba(17,32,51,.12);
     }
-    .row:last-child{border-bottom:none}
-    label{font-size:13px}
-    .hint{color:var(--muted); font-size:12px; margin-top:3px}
-    input[type="number"], input[type="text"]{
+    .field:last-child{border-bottom:none}
+    label{font-size:13px; font-weight:700;}
+    .hint{margin-top:3px; color:var(--muted); font-size:12px;}
+    input[type="number"]{
       width:100%;
       padding:10px 10px;
       border-radius:12px;
       border:1px solid var(--line);
-      background: rgba(0,0,0,.25);
-      color: var(--text);
+      background:#fff;
+      color:var(--text);
       outline:none;
     }
-    input[type="range"]{
-      width:100%;
-      accent-color: var(--accent);
-    }
-    .btns{
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    button{
-      padding:9px 10px;
-      border-radius:12px;
+    input[type="range"]{width:100%; accent-color: var(--accent);}
+    .rangeBox{display:flex; flex-direction:column; gap:6px;}
+    .rangeLabel{font-size:12px; color:var(--muted);}
+
+    details{
+      margin-top:12px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      cursor:pointer;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.85);
+      padding:10px 12px;
+    }
+    summary{cursor:pointer; font-size:13px; font-weight:800;}
+    .note{
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:12px;
+      background: rgba(255,255,255,.85);
+      color:var(--muted);
       font-size:12px;
     }
-    button:hover{ background: rgba(255,255,255,.07); }
-    .muted{color:var(--muted)}
-    .small{font-size:12px}
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
+
+    /* Breakdown */
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:12px;}
+    @media (max-width:720px){ .split{grid-template-columns:1fr;} }
+
+    .callout{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:12px;
+      background: rgba(255,255,255,.9);
     }
-    @media (max-width: 980px){
-      .split{grid-template-columns:1fr}
-    }
-    .statGrid{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:10px;
-    }
-    @media (max-width: 720px){
-      .statGrid{grid-template-columns:1fr}
-    }
+    .callout b{color:var(--text)}
+    .callout .title{font-weight:900; font-size:13px; margin-bottom:6px;}
+    .callout.good{border-color: rgba(22,163,74,.28); background: rgba(22,163,74,.06);}
+    .callout.warn{border-color: rgba(180,83,9,.28); background: rgba(180,83,9,.06);}
+
+    .statGrid{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-top:12px;}
+    @media (max-width:720px){ .statGrid{grid-template-columns:1fr;} }
     .stat{
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius: var(--radius);
       padding:12px;
-      background: rgba(0,0,0,.18);
+      background:#fff;
     }
-    .stat .k{color:var(--muted); font-size:12px}
-    .stat .v{font-size:18px; font-weight:800; margin-top:6px}
-    .stat .s{color:var(--muted); font-size:12px; margin-top:6px}
+    .stat .k{color:var(--muted); font-size:12px;}
+    .stat .v{margin-top:6px; font-size:18px; font-weight:900;}
+    .stat .s{margin-top:6px; color:var(--muted); font-size:12px;}
+
     .barWrap{
       margin-top:12px;
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius: var(--radius);
       padding:12px;
-      background: rgba(0,0,0,.18);
+      background:#fff;
     }
     .bar{
       height:12px;
       border-radius:999px;
-      background: rgba(255,255,255,.08);
+      background: rgba(17,32,51,.08);
       overflow:hidden;
+      margin-top:10px;
     }
     .bar > div{
       height:100%;
       width:50%;
-      background: linear-gradient(90deg, rgba(121,184,255,.8), rgba(124,255,178,.75));
+      background: linear-gradient(90deg, rgba(47,111,237,.85), rgba(22,163,74,.80));
     }
     .barMeta{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12px;
-      flex-wrap:wrap;
+      display:flex; justify-content:space-between; gap:10px;
+      margin-top:10px; color:var(--muted); font-size:12px; flex-wrap:wrap;
     }
-    details{
-      margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:10px 12px;
-      background: rgba(255,255,255,.03);
-    }
-    summary{ cursor:pointer; color:var(--text); font-size:13px; }
-    .foot{
+    .footer{
       margin-top:14px;
-      color:var(--muted);
-      font-size:12px;
       padding-top:10px;
       border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
     }
-    .callout{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:12px;
-      background: rgba(121,184,255,.08);
-      color: var(--text);
-    }
-    .callout b{color: var(--text)}
-    .danger{
-      background: rgba(255,124,154,.08);
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="topbar">
+    <div class="top">
       <div>
-        <div class="badge">Demo3｜経営インパクト可視化（静的HTML / 実データ不要）</div>
-        <h1 class="title">訪問計画は「順番」ではなく、<span style="color:var(--accent); font-weight:900;">経営の数字</span>に翻訳できるか</h1>
-        <p class="subtitle">Demo1（対話）/ Demo2（地図）で腹落ちした価値を、意思決定の一撃（年間削減）に変換します。</p>
+        <div class="chip">Demo3｜経営インパクト可視化（静的HTML / 実データ不要）</div>
+        <h1>訪問計画の価値を、<span style="color:var(--accent); font-weight:900;">「年間削減」</span>で一撃表示</h1>
+        <p class="sub">
+          このデモは「正確な見積」ではなく、意思決定のための“腹落ち”を作るものです。<br>
+          まずは <b>最小入力</b> だけで結果を出し、必要なら詳細を開いて調整できます。
+        </p>
       </div>
-      <div class="badge">GitHub Pages直置き / サーバー不要 / APIキー不要</div>
+      <div class="chip">GitHub Pages直置き / サーバー不要 / APIキー不要</div>
     </div>
 
     <div class="grid">
-      <!-- LEFT: Inputs -->
+      <!-- LEFT -->
       <section class="card">
         <div class="hd">
-          <h2>① 前提（デモ用）</h2>
-          <span class="muted small">入力不要で回る／プリセットあり</span>
+          <h2>① 前提（最小入力でOK）</h2>
+          <span class="muted small">抵抗がある人でも触れる設計</span>
         </div>
         <div class="bd">
-          <div class="btns" style="margin-bottom:10px;">
+          <div class="presetRow">
             <button type="button" data-preset="small">小規模（5名）</button>
-            <button type="button" data-preset="mid">中規模（20名）</button>
+            <button type="button" data-preset="mid" class="btnPrimary">中規模（20名）</button>
             <button type="button" data-preset="large">大規模（50名）</button>
             <button type="button" id="resetBtn">リセット</button>
           </div>
 
-          <div class="row">
+          <!-- Minimal inputs -->
+          <div class="field">
             <div>
               <label>稼働人数（技術者）</label>
-              <div class="hint">訪問に出る人数。管理者のみは除外。</div>
+              <div class="hint">訪問に出る人数（管理のみは除外）。</div>
             </div>
             <input id="tech" type="number" min="1" step="1" value="20" />
           </div>
 
-          <div class="row">
+          <div class="field">
             <div>
               <label>1人あたり訪問件数 / 日</label>
-              <div class="hint">平均でOK（繁忙期は後で調整可）。</div>
+              <div class="hint">平均でOK（繁忙期は後で調整）。</div>
             </div>
             <input id="visitsPerDay" type="number" min="1" step="1" value="6" />
           </div>
 
-          <div class="row">
-            <div>
-              <label>稼働日数 / 月</label>
-              <div class="hint">例：20日（平日稼働）。</div>
-            </div>
-            <input id="workDays" type="number" min="1" step="1" value="20" />
-          </div>
-
-          <div class="row">
-            <div>
-              <label>計画・調整に使う時間（全体）/ 日</label>
-              <div class="hint">朝の割当、急な差し込み、電話調整など。</div>
-            </div>
-            <input id="planMinDay" type="number" min="0" step="5" value="90" />
-          </div>
-
-          <div class="row">
-            <div>
-              <label>事務（報告・記録）時間 / 訪問</label>
-              <div class="hint">報告書、社内共有、写真整理など。</div>
-            </div>
-            <input id="adminMinVisit" type="number" min="0" step="1" value="8" />
-          </div>
-
-          <div class="row">
-            <div>
-              <label>手戻り（再訪/確認）率</label>
-              <div class="hint">情報不足・抜け漏れで増える部分。</div>
-            </div>
-            <div>
-              <input id="reworkRate" type="range" min="0" max="20" step="1" value="6" />
-              <div class="muted small"><span id="reworkRateLabel">6</span>%</div>
-            </div>
-          </div>
-
-          <div class="row">
+          <div class="field">
             <div>
               <label>人件費（概算）/ 時間</label>
-              <div class="hint">残業単価ではなく「実効コスト」でもOK。</div>
+              <div class="hint">残業単価でも、実効コストでもOK。</div>
             </div>
             <input id="costPerHour" type="number" min="500" step="50" value="2500" />
           </div>
 
-          <div class="row">
-            <div>
-              <label>AI活用で減る割合（計画時間）</label>
-              <div class="hint">Demo1/2の“匂わせ”として感度調整用。</div>
-            </div>
-            <div>
-              <input id="planReduce" type="range" min="10" max="70" step="5" value="40" />
-              <div class="muted small"><span id="planReduceLabel">40</span>%削減</div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label>AI活用で減る分（事務/訪問）</label>
-              <div class="hint">テンプレ化・要点抽出・自動整形のイメージ。</div>
-            </div>
-            <div>
-              <input id="adminReduceMin" type="range" min="0" max="6" step="1" value="3" />
-              <div class="muted small">-<span id="adminReduceMinLabel">3</span>分</div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label>AI活用で減る割合（手戻り）</label>
-              <div class="hint">チェックリスト化・抜け漏れ予防の効果。</div>
-            </div>
-            <div>
-              <input id="reworkReduce" type="range" min="0" max="70" step="5" value="35" />
-              <div class="muted small"><span id="reworkReduceLabel">35</span>%低減</div>
-            </div>
-          </div>
-
           <details>
-            <summary>（安全設計）デモで扱わない情報</summary>
-            <div class="small muted" style="margin-top:10px;">
-              このデモは<strong>実データ入力なし</strong>で成立します。<br/>
-              顧客名・住所・連絡先・契約内容・個別の売上/粗利・機密の保守条件などは扱いません。<br/>
-              実連携は「次のステップ」でCSV/台帳を使う前提に留めます。
+            <summary>詳細設定（必要な場合だけ開く）</summary>
+
+            <div class="field" style="margin-top:6px;">
+              <div>
+                <label>稼働日数 / 月</label>
+                <div class="hint">例：20日（平日稼働）。</div>
+              </div>
+              <input id="workDays" type="number" min="1" step="1" value="20" />
+            </div>
+
+            <div class="field">
+              <div>
+                <label>計画・調整に使う時間（全体）/ 日</label>
+                <div class="hint">朝の割当、差し込み、電話調整など。</div>
+              </div>
+              <input id="planMinDay" type="number" min="0" step="5" value="90" />
+            </div>
+
+            <div class="field">
+              <div>
+                <label>事務（報告・記録）時間 / 訪問</label>
+                <div class="hint">報告書、社内共有、写真整理など。</div>
+              </div>
+              <input id="adminMinVisit" type="number" min="0" step="1" value="8" />
+            </div>
+
+            <div class="field">
+              <div>
+                <label>手戻り（再訪/確認）率</label>
+                <div class="hint">情報不足・抜け漏れで増える部分。</div>
+              </div>
+              <div class="rangeBox">
+                <input id="reworkRate" type="range" min="0" max="20" step="1" value="6" />
+                <div class="rangeLabel"><span id="reworkRateLabel">6</span>%</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div>
+                <label>手戻り1件あたりの時間（保守的な仮定）</label>
+                <div class="hint">「調整＋報告＋連絡」を控えめに見積もるための値。</div>
+              </div>
+              <div class="rangeBox">
+                <input id="reworkProxyMin" type="range" min="5" max="60" step="5" value="20" />
+                <div class="rangeLabel"><span id="reworkProxyMinLabel">20</span>分 / 件</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div>
+                <label>標準化/AIで減る割合（計画時間）</label>
+                <div class="hint">テンプレ化・要点抽出・判断基準の統一の効果。</div>
+              </div>
+              <div class="rangeBox">
+                <input id="planReduce" type="range" min="10" max="70" step="5" value="40" />
+                <div class="rangeLabel"><span id="planReduceLabel">40</span>%削減</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div>
+                <label>標準化/AIで減る分（事務/訪問）</label>
+                <div class="hint">報告テンプレ、文章の自動整形、定型文。</div>
+              </div>
+              <div class="rangeBox">
+                <input id="adminReduceMin" type="range" min="0" max="6" step="1" value="3" />
+                <div class="rangeLabel">-<span id="adminReduceMinLabel">3</span>分</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div>
+                <label>標準化/AIで減る割合（手戻り）</label>
+                <div class="hint">チェックリスト運用・抜け漏れ予防。</div>
+              </div>
+              <div class="rangeBox">
+                <input id="reworkReduce" type="range" min="0" max="70" step="5" value="35" />
+                <div class="rangeLabel"><span id="reworkReduceLabel">35</span>%低減</div>
+              </div>
             </div>
           </details>
 
-          <div class="foot">
-            ※ここは「正確な見積」ではなく、意思決定のための腹落ちデモです。<br/>
-            ※数字が疑われないよう、右側で“内訳（何が減るか）”を必ず表示します。
+          <details>
+            <summary>（安全設計）デモで扱わない情報</summary>
+            <div class="note" style="margin-top:10px;">
+              このデモは <b>実データ入力なし</b> で成立します。<br>
+              顧客名・住所・連絡先・契約内容・個別の売上/粗利・機密の保守条件などは扱いません。<br>
+              実連携は「次のステップ」でCSV/台帳（必要ならマスキング）を使う前提に留めます。
+            </div>
+          </details>
+
+          <div class="note">
+            ✅ まずは「最小入力」で結果を出す → その場で腹落ち<br>
+            ✅ 突っ込まれたら「詳細設定」で前提を調整<br>
+            ✅ そのうえで次回、実データ連携（匂わせ）へ
           </div>
         </div>
       </section>
 
-      <!-- RIGHT: Outputs -->
-      <section class="card kpiHero">
+      <!-- RIGHT -->
+      <section class="card">
         <div class="hd">
           <h2>② 1秒で伝える結論</h2>
           <span class="muted small">年間削減（時間 / 円）</span>
         </div>
         <div class="bd">
-          <div class="heroLine">
+          <div class="hero">
+            <p class="heroTitle">結論（この画面で伝えたいこと）</p>
             <div class="heroBig" id="heroText">年間 0時間 / 0円 削減</div>
-            <div class="heroSmall" id="heroSub">（前提：20名 / 6件/日 / 20日/月）</div>
-          </div>
-          <div class="heroPills">
-            <div class="pill">月間削減 <b id="saveHoursMonth">0</b> 時間</div>
-            <div class="pill">年間削減 <b id="saveHoursYear">0</b> 時間</div>
-            <div class="pill">年間削減 <b id="saveCostYear">0</b> 円</div>
-            <div class="pill">手戻り低減 <b id="reworkDelta">0</b> 件/月</div>
-          </div>
+            <p class="heroSub" id="heroSub">（前提：20名 / 6件/日 / 20日/月）</p>
 
-          <div class="split" style="margin-top:14px;">
-            <div class="callout">
-              <b>このデモで言いたいこと</b><br/>
-              「訪問順の最適化」より先に、<br/>
-              <b>計画・事務・手戻り</b>を標準化して<strong>毎月のムダ</strong>を削る。
+            <div class="pills">
+              <div class="pill">月間削減 <b id="saveHoursMonth">0</b> 時間</div>
+              <div class="pill">年間削減 <b id="saveHoursYear">0</b> 時間</div>
+              <div class="pill">年間削減 <b id="saveCostYear">0</b> 円</div>
+              <div class="pill">手戻り低減 <b id="reworkDelta">0</b> 件/月</div>
             </div>
-            <div class="callout danger">
-              <b>やらないこと（機能追加ゲーム防止）</b><br/>
-              ルート最適化の精密計算／実データ連携／現場の内輪メモ表示はしません。<br/>
-              “腹落ち”が目的です。
+
+            <div class="ctaRow">
+              <button type="button" id="copyBtn" class="btnPrimary">前提と結論をコピー（稟議・社内共有用）</button>
+              <button type="button" id="toggleExplainBtn">内訳まで見る</button>
             </div>
           </div>
 
-          <div class="card" style="margin-top:14px;">
-            <div class="hd">
-              <h2>③ 何が減るのか（内訳）</h2>
+          <div class="split">
+            <div class="callout good">
+              <div class="title">このデモが言いたいこと</div>
+              「訪問順の精密最適化」の前に、<br>
+              <b>計画・報告・手戻り</b>を標準化して <b>毎月のムダ</b>を削る。
+            </div>
+            <div class="callout warn">
+              <div class="title">やらないこと（機能追加ゲーム防止）</div>
+              ルート精密計算／実データ連携／内輪メモ表示はしません。<br>
+              目的は“腹落ち”です。
+            </div>
+          </div>
+
+          <div id="explainArea" style="margin-top:12px;">
+            <div class="hd" style="padding:0; border:0; margin-top:6px;">
+              <h2 style="margin:0; font-size:14px;">③ 何が減るのか（内訳）</h2>
               <span class="muted small">疑いを潰す</span>
             </div>
-            <div class="bd">
-              <div class="statGrid">
-                <div class="stat">
-                  <div class="k">計画・調整（全体）</div>
-                  <div class="v" id="breakPlan">0 時間/月</div>
-                  <div class="s" id="breakPlanS">（90分/日 → 54分/日）</div>
-                </div>
-                <div class="stat">
-                  <div class="k">事務（報告・記録）</div>
-                  <div class="v" id="breakAdmin">0 時間/月</div>
-                  <div class="s" id="breakAdminS">（8分/訪問 → 5分/訪問）</div>
-                </div>
-                <div class="stat">
-                  <div class="k">手戻り（再訪・確認）</div>
-                  <div class="v" id="breakRework">0 時間/月</div>
-                  <div class="s" id="breakReworkS">（6% → 3.9%）</div>
-                </div>
-                <div class="stat">
-                  <div class="k">合計</div>
-                  <div class="v" id="breakTotal">0 時間/月</div>
-                  <div class="s" id="breakTotalS">＝年間換算と金額に変換</div>
-                </div>
-              </div>
 
-              <div class="barWrap">
-                <div class="k" style="color:var(--muted); font-size:12px;">月間ムダ削減の進捗イメージ（腹落ち用）</div>
-                <div class="bar" style="margin-top:10px;">
-                  <div id="barFill" style="width:50%"></div>
-                </div>
-                <div class="barMeta">
-                  <span>現状ムダ（推定）</span>
-                  <span><b id="barPct" style="color:var(--text);">50</b>% 改善</span>
-                  <span>標準化＋AIで縮む</span>
-                </div>
+            <div class="statGrid">
+              <div class="stat">
+                <div class="k">計画・調整（全体）</div>
+                <div class="v" id="breakPlan">0 時間/月</div>
+                <div class="s" id="breakPlanS">（90分/日 → 54分/日）</div>
               </div>
-
-              <details>
-                <summary>次のステップ（実連携は“匂わせ”まで）</summary>
-                <div class="small muted" style="margin-top:10px;">
-                  ✅ 現場台帳（CSV）から、計画・報告テンプレに自動投入（個人/顧客はマスキング）<br/>
-                  ✅ チェックリスト運用（抜け漏れ→手戻り低減）を定着させる<br/>
-                  ✅ 90日で「新人でも回る」運用ルール化（N1〜N4）<br/>
-                  ※DemoではAPI/サーバー連携はしません（提案段階で“安心”を優先）。
-                </div>
-              </details>
-
-              <div class="foot">
-                “削減”は目的ではなく、<strong>空いた時間を何に回すか</strong>が成果（緊急対応の吸収／教育／顧客フォロー）。<br/>
-                ここを提案資料で一言だけ添えると、経営の納得が跳ねます。
+              <div class="stat">
+                <div class="k">事務（報告・記録）</div>
+                <div class="v" id="breakAdmin">0 時間/月</div>
+                <div class="s" id="breakAdminS">（8分/訪問 → 5分/訪問）</div>
               </div>
+              <div class="stat">
+                <div class="k">手戻り（再訪・確認）</div>
+                <div class="v" id="breakRework">0 時間/月</div>
+                <div class="s" id="breakReworkS">（6% → 3.9%）</div>
+              </div>
+              <div class="stat">
+                <div class="k">合計</div>
+                <div class="v" id="breakTotal">0 時間/月</div>
+                <div class="s" id="breakTotalS">＝年間換算と金額に変換</div>
+              </div>
+            </div>
+
+            <div class="barWrap">
+              <div class="muted small">改善の腹落ち（イメージ）</div>
+              <div class="bar"><div id="barFill" style="width:50%"></div></div>
+              <div class="barMeta">
+                <span>現状ムダ（推定）</span>
+                <span><b id="barPct" style="color:var(--text);">50</b>% 改善</span>
+                <span>標準化＋AIで縮む</span>
+              </div>
+            </div>
+
+            <details>
+              <summary>次のステップ（実連携は“匂わせ”まで）</summary>
+              <div class="note" style="margin-top:10px;">
+                ✅ 現場台帳（CSV）→ 計画・報告テンプレへ自動投入（必要ならマスキング）<br>
+                ✅ チェックリスト運用で抜け漏れを減らし、手戻りを低減<br>
+                ✅ 90日で「新人でも回る」運用ルール化（定着）<br>
+                ※このデモではAPI/サーバー連携はしません（安心を優先）。
+              </div>
+            </details>
+
+            <div class="footer">
+              「削減額」だけではなく、<b>何が減るか（内訳）</b>を見せると納得が上がります。<br>
+              さらに刺させるなら、空いた時間の使い道（教育・顧客フォロー・緊急対応吸収）を提案資料で一言。
             </div>
           </div>
         </div>
@@ -483,6 +463,8 @@
 
 <script>
   const el = (id)=>document.getElementById(id);
+  const clamp = (n, min, max)=> Math.max(min, Math.min(max, n));
+  const fmtInt = (n)=> Math.round(n).toLocaleString('ja-JP');
 
   const state = {
     tech: 20,
@@ -494,57 +476,55 @@
     costPerHour: 2500,
     planReduce: 40,         // %
     adminReduceMin: 3,      // minutes
-    reworkReduce: 35        // %
+    reworkReduce: 35,       // %
+    reworkProxyMin: 20      // minutes per rework case
   };
-
-  const fmtInt = (n)=> Math.round(n).toLocaleString('ja-JP');
-  const clamp = (n, min, max)=> Math.max(min, Math.min(max, n));
 
   function readInputs(){
     state.tech = clamp(Number(el('tech').value || 1), 1, 9999);
     state.visitsPerDay = clamp(Number(el('visitsPerDay').value || 1), 1, 200);
-    state.workDays = clamp(Number(el('workDays').value || 1), 1, 31);
-    state.planMinDay = clamp(Number(el('planMinDay').value || 0), 0, 600);
-    state.adminMinVisit = clamp(Number(el('adminMinVisit').value || 0), 0, 120);
-    state.reworkRate = clamp(Number(el('reworkRate').value || 0), 0, 50);
     state.costPerHour = clamp(Number(el('costPerHour').value || 0), 500, 20000);
-    state.planReduce = clamp(Number(el('planReduce').value || 0), 10, 80);
-    state.adminReduceMin = clamp(Number(el('adminReduceMin').value || 0), 0, 15);
-    state.reworkReduce = clamp(Number(el('reworkReduce').value || 0), 0, 90);
+
+    // detail inputs may not exist yet? they do, but keep safe:
+    state.workDays = el('workDays') ? clamp(Number(el('workDays').value || 1), 1, 31) : 20;
+    state.planMinDay = el('planMinDay') ? clamp(Number(el('planMinDay').value || 0), 0, 600) : 90;
+    state.adminMinVisit = el('adminMinVisit') ? clamp(Number(el('adminMinVisit').value || 0), 0, 120) : 8;
+
+    state.reworkRate = el('reworkRate') ? clamp(Number(el('reworkRate').value || 0), 0, 50) : 6;
+    state.planReduce = el('planReduce') ? clamp(Number(el('planReduce').value || 0), 10, 80) : 40;
+    state.adminReduceMin = el('adminReduceMin') ? clamp(Number(el('adminReduceMin').value || 0), 0, 15) : 3;
+    state.reworkReduce = el('reworkReduce') ? clamp(Number(el('reworkReduce').value || 0), 0, 90) : 35;
+    state.reworkProxyMin = el('reworkProxyMin') ? clamp(Number(el('reworkProxyMin').value || 20), 5, 120) : 20;
 
     // labels
-    el('reworkRateLabel').textContent = state.reworkRate;
-    el('planReduceLabel').textContent = state.planReduce;
-    el('adminReduceMinLabel').textContent = state.adminReduceMin;
-    el('reworkReduceLabel').textContent = state.reworkReduce;
+    if(el('reworkRateLabel')) el('reworkRateLabel').textContent = state.reworkRate;
+    if(el('planReduceLabel')) el('planReduceLabel').textContent = state.planReduce;
+    if(el('adminReduceMinLabel')) el('adminReduceMinLabel').textContent = state.adminReduceMin;
+    if(el('reworkReduceLabel')) el('reworkReduceLabel').textContent = state.reworkReduce;
+    if(el('reworkProxyMinLabel')) el('reworkProxyMinLabel').textContent = state.reworkProxyMin;
   }
 
   function compute(){
-    // volumes
     const totalVisitsPerMonth = state.tech * state.visitsPerDay * state.workDays;
 
-    // PLAN: total planning minutes per month (team-level)
+    // PLAN (team-level)
     const planBaseMinMonth = state.planMinDay * state.workDays;
     const planAfterMinMonth = planBaseMinMonth * (1 - state.planReduce/100);
     const planSaveMinMonth = planBaseMinMonth - planAfterMinMonth;
 
-    // ADMIN: per visit minutes reduced
+    // ADMIN (per visit)
     const adminAfterMinVisit = clamp(state.adminMinVisit - state.adminReduceMin, 0, 999);
     const adminBaseMinMonth = state.adminMinVisit * totalVisitsPerMonth;
     const adminAfterMinMonth = adminAfterMinVisit * totalVisitsPerMonth;
     const adminSaveMinMonth = adminBaseMinMonth - adminAfterMinMonth;
 
-    // REWORK: rework visits per month reduced, assume each rework consumes (visit duration?) We'll approximate as "admin+plan overhead"
-    // To keep "腹落ち" and avoid arguing about visit duration, we convert rework into time as:
-    // 1 rework = 20 minutes (調整 + 事務 + 手戻り対応) as a conservative proxy.
+    // REWORK (rate reduced) -> time by proxy minutes
     const reworkBaseVisits = totalVisitsPerMonth * (state.reworkRate/100);
     const reworkAfterVisits = reworkBaseVisits * (1 - state.reworkReduce/100);
     const reworkDeltaVisits = reworkBaseVisits - reworkAfterVisits;
+    const reworkSaveMinMonth = reworkDeltaVisits * state.reworkProxyMin;
 
-    const reworkProxyMinPerCase = 20; // demo-friendly assumption
-    const reworkSaveMinMonth = reworkDeltaVisits * reworkProxyMinPerCase;
-
-    // Totals
+    // totals
     const saveMinMonth = planSaveMinMonth + adminSaveMinMonth + reworkSaveMinMonth;
     const saveHoursMonth = saveMinMonth / 60;
     const saveHoursYear = saveHoursMonth * 12;
@@ -555,40 +535,45 @@
     const adminSaveH = adminSaveMinMonth/60;
     const reworkSaveH = reworkSaveMinMonth/60;
 
-    // 1-second hero
+    // hero
     el('saveHoursMonth').textContent = fmtInt(saveHoursMonth);
     el('saveHoursYear').textContent = fmtInt(saveHoursYear);
     el('saveCostYear').textContent = fmtInt(saveCostYear);
-
     el('reworkDelta').textContent = fmtInt(reworkDeltaVisits);
 
-    const hero = `年間 ${fmtInt(saveHoursYear)}時間 / ${fmtInt(saveCostYear)}円 削減`;
-    el('heroText').textContent = hero;
+    el('heroText').textContent = `年間 ${fmtInt(saveHoursYear)}時間 / ${fmtInt(saveCostYear)}円 削減`;
     el('heroSub').textContent = `（前提：${state.tech}名 / ${state.visitsPerDay}件/日 / ${state.workDays}日/月）`;
 
     // breakdown
-    el('breakPlan').textContent = `${fmtInt(planSaveH)} 時間/月`;
     const planAfterPerDay = state.planMinDay * (1 - state.planReduce/100);
+    el('breakPlan').textContent = `${fmtInt(planSaveH)} 時間/月`;
     el('breakPlanS').textContent = `（${state.planMinDay}分/日 → ${Math.round(planAfterPerDay)}分/日）`;
 
     el('breakAdmin').textContent = `${fmtInt(adminSaveH)} 時間/月`;
     el('breakAdminS').textContent = `（${state.adminMinVisit}分/訪問 → ${adminAfterMinVisit}分/訪問）`;
 
-    el('breakRework').textContent = `${fmtInt(reworkSaveH)} 時間/月`;
     const reworkAfterRate = state.reworkRate * (1 - state.reworkReduce/100);
-    el('breakReworkS').textContent = `（${state.reworkRate}% → ${reworkAfterRate.toFixed(1)}% ／ 1件=20分換算）`;
+    el('breakRework').textContent = `${fmtInt(reworkSaveH)} 時間/月`;
+    el('breakReworkS').textContent = `（${state.reworkRate}% → ${reworkAfterRate.toFixed(1)}% ／ 1件=${state.reworkProxyMin}分換算）`;
 
     el('breakTotal').textContent = `${fmtInt(saveHoursMonth)} 時間/月`;
     el('breakTotalS').textContent = `＝年間 ${fmtInt(saveHoursYear)}時間（×${fmtInt(state.costPerHour)}円/時 → ${fmtInt(saveCostYear)}円）`;
 
-    // bar: show improvement percentage vs a notional baseline waste (cap at 80% for demo realism)
-    // compute an "improvement" score based on the reduction settings, weighted
-    const score = clamp(
-      (state.planReduce*0.45 + (state.adminReduceMin/Math.max(1,state.adminMinVisit))*100*0.35 + state.reworkReduce*0.20),
-      10, 80
-    );
+    // bar score
+    const adminPct = state.adminMinVisit > 0 ? (state.adminReduceMin / state.adminMinVisit) * 100 : 0;
+    const score = clamp((state.planReduce*0.45 + adminPct*0.35 + state.reworkReduce*0.20), 10, 80);
     el('barFill').style.width = `${score}%`;
     el('barPct').textContent = Math.round(score);
+
+    return {
+      totalVisitsPerMonth,
+      planSaveH, adminSaveH, reworkSaveH,
+      saveHoursMonth, saveHoursYear, saveCostYear,
+      reworkDeltaVisits,
+      adminAfterMinVisit,
+      planAfterPerDay,
+      reworkAfterRate
+    };
   }
 
   function render(){
@@ -597,62 +582,123 @@
   }
 
   function applyPreset(name){
+    const is = (id)=>el(id);
     if(name === 'small'){
-      el('tech').value = 5;
-      el('visitsPerDay').value = 5;
-      el('workDays').value = 20;
-      el('planMinDay').value = 60;
-      el('adminMinVisit').value = 9;
-      el('reworkRate').value = 7;
-      el('costPerHour').value = 2300;
-      el('planReduce').value = 35;
-      el('adminReduceMin').value = 3;
-      el('reworkReduce').value = 30;
+      is('tech').value = 5;
+      is('visitsPerDay').value = 5;
+      is('costPerHour').value = 2300;
+
+      is('workDays').value = 20;
+      is('planMinDay').value = 60;
+      is('adminMinVisit').value = 9;
+      is('reworkRate').value = 7;
+      is('reworkProxyMin').value = 20;
+      is('planReduce').value = 35;
+      is('adminReduceMin').value = 3;
+      is('reworkReduce').value = 30;
     }
     if(name === 'mid'){
-      el('tech').value = 20;
-      el('visitsPerDay').value = 6;
-      el('workDays').value = 20;
-      el('planMinDay').value = 90;
-      el('adminMinVisit').value = 8;
-      el('reworkRate').value = 6;
-      el('costPerHour').value = 2500;
-      el('planReduce').value = 40;
-      el('adminReduceMin').value = 3;
-      el('reworkReduce').value = 35;
+      is('tech').value = 20;
+      is('visitsPerDay').value = 6;
+      is('costPerHour').value = 2500;
+
+      is('workDays').value = 20;
+      is('planMinDay').value = 90;
+      is('adminMinVisit').value = 8;
+      is('reworkRate').value = 6;
+      is('reworkProxyMin').value = 20;
+      is('planReduce').value = 40;
+      is('adminReduceMin').value = 3;
+      is('reworkReduce').value = 35;
     }
     if(name === 'large'){
-      el('tech').value = 50;
-      el('visitsPerDay').value = 6;
-      el('workDays').value = 22;
-      el('planMinDay').value = 140;
-      el('adminMinVisit').value = 7;
-      el('reworkRate').value = 5;
-      el('costPerHour').value = 2800;
-      el('planReduce').value = 45;
-      el('adminReduceMin').value = 3;
-      el('reworkReduce').value = 40;
+      is('tech').value = 50;
+      is('visitsPerDay').value = 6;
+      is('costPerHour').value = 2800;
+
+      is('workDays').value = 22;
+      is('planMinDay').value = 140;
+      is('adminMinVisit').value = 7;
+      is('reworkRate').value = 5;
+      is('reworkProxyMin').value = 20;
+      is('planReduce').value = 45;
+      is('adminReduceMin').value = 3;
+      is('reworkReduce').value = 40;
     }
+
+    // highlight preset button style
+    document.querySelectorAll('button[data-preset]').forEach(b=>b.classList.remove('btnPrimary'));
+    const btn = document.querySelector(`button[data-preset="${name}"]`);
+    if(btn) btn.classList.add('btnPrimary');
+
     render();
   }
 
-  // listeners
-  ['tech','visitsPerDay','workDays','planMinDay','adminMinVisit','costPerHour'].forEach(id=>{
-    el(id).addEventListener('input', render);
-  });
-  ['reworkRate','planReduce','adminReduceMin','reworkReduce'].forEach(id=>{
-    el(id).addEventListener('input', render);
-  });
+  function bind(){
+    // minimal
+    ['tech','visitsPerDay','costPerHour'].forEach(id=>{
+      el(id).addEventListener('input', render);
+    });
 
-  document.querySelectorAll('button[data-preset]').forEach(btn=>{
-    btn.addEventListener('click', ()=> applyPreset(btn.dataset.preset));
-  });
+    // details
+    ['workDays','planMinDay','adminMinVisit'].forEach(id=>{
+      el(id).addEventListener('input', render);
+    });
+    ['reworkRate','reworkProxyMin','planReduce','adminReduceMin','reworkReduce'].forEach(id=>{
+      el(id).addEventListener('input', render);
+    });
 
-  el('resetBtn').addEventListener('click', ()=>{
-    applyPreset('mid');
-  });
+    document.querySelectorAll('button[data-preset]').forEach(btn=>{
+      btn.addEventListener('click', ()=> applyPreset(btn.dataset.preset));
+    });
+
+    el('resetBtn').addEventListener('click', ()=> applyPreset('mid'));
+
+    // copy
+    el('copyBtn').addEventListener('click', ()=>{
+      readInputs();
+      const r = compute();
+      const text =
+`【Demo3：訪問計画の経営インパクト（腹落ち用）】
+結論：年間 ${fmtInt(r.saveHoursYear)}時間 / ${fmtInt(r.saveCostYear)}円 削減（推定）
+
+前提（デモ用・実データ不使用）：
+- 稼働人数：${state.tech}名
+- 訪問件数：${state.visitsPerDay}件/日
+- 稼働日数：${state.workDays}日/月
+- 人件費：${fmtInt(state.costPerHour)}円/時
+
+内訳（何が減るか）：
+- 計画・調整：${fmtInt(r.planSaveH)}時間/月（${state.planMinDay}分/日 → ${Math.round(r.planAfterPerDay)}分/日）
+- 事務（報告・記録）：${fmtInt(r.adminSaveH)}時間/月（${state.adminMinVisit}分/訪問 → ${r.adminAfterMinVisit}分/訪問）
+- 手戻り（再訪/確認）：${fmtInt(r.reworkSaveH)}時間/月（${state.reworkRate}% → ${r.reworkAfterRate.toFixed(1)}%）
+  ※手戻り1件=${state.reworkProxyMin}分で控えめに換算
+
+注意：これは精密見積ではなく意思決定用の腹落ちデモです。`;
+      navigator.clipboard?.writeText(text).then(()=>{
+        el('copyBtn').textContent = 'コピーしました';
+        setTimeout(()=> el('copyBtn').textContent = '前提と結論をコピー（稟議・社内共有用）', 1200);
+      }).catch(()=>{
+        // fallback
+        prompt('コピーできない場合は、ここから手動でコピーしてください。', text);
+      });
+    });
+
+    // explain toggle
+    const explainArea = el('explainArea');
+    const btn = el('toggleExplainBtn');
+    let open = true;
+    const setOpen = (v)=>{
+      open = v;
+      explainArea.style.display = open ? 'block' : 'none';
+      btn.textContent = open ? '内訳を閉じる' : '内訳まで見る';
+    };
+    btn.addEventListener('click', ()=> setOpen(!open));
+    setOpen(true);
+  }
 
   // init
+  bind();
   applyPreset('mid');
 </script>
 </body>
